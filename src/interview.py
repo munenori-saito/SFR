@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-MODEL_NAME = "llama-3.3-70b-versatile"
+MODEL_NAME = "openai/gpt-oss-120b"
 
 
 # ------------------------------------------------------------------ #
@@ -204,6 +204,7 @@ class InterviewEngine:
 
         stream = self.client.chat.completions.create(
             model=MODEL_NAME,
+            reasoning_effort="low",
             messages=messages,
             stream=True,
             temperature=0.75,
@@ -275,6 +276,7 @@ Summarize what can be read from this conversation in the following format:
         ]
         stream = self.client.chat.completions.create(
             model=MODEL_NAME,
+            reasoning_effort="low",
             messages=messages,
             stream=True,
             temperature=0.5,

@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-MODEL_NAME = "llama-3.3-70b-versatile"
+MODEL_NAME = "openai/gpt-oss-120b"
 
 EMPTY_PROFILE = {
     "excitement_triggers": [],   # ワクワクする状況・行動
@@ -105,6 +105,7 @@ class ProfileBuilder:
 
         response = self.client.chat.completions.create(
             model=MODEL_NAME,
+            reasoning_effort="low",
             messages=[
                 {"role": "system", "content": "You are a JSON-only responder. Output valid JSON and nothing else."},
                 {"role": "user", "content": prompt},

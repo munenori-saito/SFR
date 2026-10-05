@@ -16,7 +16,7 @@ from src.vectorstore import MemoryStore
 
 load_dotenv()
 
-MODEL_NAME = "llama-3.3-70b-versatile"
+MODEL_NAME = "openai/gpt-oss-120b"
 
 # ------------------------------------------------------------------ #
 # ペルソナ定義
@@ -182,6 +182,7 @@ class SFRAnalyzer:
         system_prompt = _build_system_prompt(lang, persona)
         stream = self.client.chat.completions.create(
             model=MODEL_NAME,
+            reasoning_effort="low",
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": prompt},
@@ -362,6 +363,7 @@ Conditions:
 
         stream = self.client.chat.completions.create(
             model=MODEL_NAME,
+            reasoning_effort="low",
             messages=messages,
             stream=True,
         )

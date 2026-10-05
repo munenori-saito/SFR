@@ -53,7 +53,7 @@ AIからの簡単な質問にチャット形式で答えていくだけで、あ
 
 ## 🛠 技術スタック
 
-- **LLM**: [Groq API](https://groq.com/) (Llama 3系モデルを利用し爆速レスポンスを実現)
+- **LLM**: [Groq API](https://groq.com/) (openai/gpt-oss-120b を利用し爆速レスポンスを実現)
 - **UI/フロントエンド**: Streamlit
 - **言語**: Python 3.11
 - **アーキテクチャ**: LLMを活用した動的プロンプト生成 ＆ コンテキスト要約処理
