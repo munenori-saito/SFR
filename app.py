@@ -117,7 +117,16 @@ with st.sidebar:
             else "Get your free key at console.groq.com"
         ),
     )
+    api_key = api_key.strip()
     st.session_state.groq_api_key = api_key
+    # 全角文字や途中の空白・改行が入るとHTTPヘッダに載せられず "Connection error." になる
+    if api_key and (not api_key.isascii() or any(c.isspace() for c in api_key)):
+        st.error(
+            "APIキーに全角文字・空白・改行が含まれています。半角で貼り直してください。"
+            if lang == "ja"
+            else "API key contains spaces, line breaks, or non-ASCII characters. Please paste it again."
+        )
+        api_key = ""
     if not api_key:
         st.caption(
             "⚠️ APIキーを入力するとインタビューが開始されます"
@@ -221,10 +230,16 @@ def _api_error_warning(e: Exception, lang: str) -> None:
             else "Rate limit reached. Please wait a moment and try again."
         )
     else:
+        detail = f"{type(e).__name__}: {e}"
+        if isinstance(e, groq_module.APIStatusError):
+            body = e.body if isinstance(e.body, dict) else {}
+            err = body.get("error", body) if isinstance(body.get("error", body), dict) else {}
+            detail = f"HTTP {e.status_code} - {err.get('message') or e}"
+        print(f"[SFR] API error: {e!r}")
         st.warning(
-            f"APIエラーが発生しました: {e}"
+            f"APIエラーが発生しました: {detail}"
             if lang == "ja"
-            else f"API error occurred: {e}"
+            else f"API error occurred: {detail}"
         )
 
 

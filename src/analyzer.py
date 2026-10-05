@@ -7,12 +7,14 @@ store が None のときはプロファイルのみで動作（インタビュ�
 from __future__ import annotations
 
 import os
-from typing import Generator
+from typing import TYPE_CHECKING, Generator
 
 from groq import Groq
 from dotenv import load_dotenv
 
-from src.vectorstore import MemoryStore
+if TYPE_CHECKING:
+    # sentence-transformers の読み込みに約20秒かかるため、型ヒント用にのみ import
+    from src.vectorstore import MemoryStore
 
 load_dotenv()
 
